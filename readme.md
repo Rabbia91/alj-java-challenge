@@ -1,4 +1,24 @@
-### How to use this spring-boot project
+## Employee Management System (Java Challange)
+
+This project provides a RESTful API for managing employees in a company.
+
+### Features
+- Retrieve a list of all employees
+- Retrieve a single employee by ID
+- Retrieve employees by department name or employee name
+- Create a new employee
+- Update an existing employee
+- Delete an employee
+
+### Technologies Used
+
+- Spring Boot
+- Spring Data JPA
+- Hibernate
+- H2 in-memory database
+- Maven
+- Mockito
+- Junit5
 
 - Install packages with `mvn package`
 - Run `mvn spring-boot:run` for starting the application (or use your IDE)
