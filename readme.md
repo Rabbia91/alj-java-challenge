@@ -33,14 +33,16 @@ This project provides a RESTful API for managing employees in a company.
 - H2 UI : http://localhost:8080/h2-console
 
 ### Modification made
+- Separate out the department entity to improve data integrity scalibility and performance of the application data model ([Department](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/entities/Department.java), [Employyee](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/entities/Employee.java))
+- Created DTO for Employee to simplify data exchange ([EmployeeDTOhttps://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/entities/dto/EmployeeDto.java)
 - Added h2 and datasource properties in Application.properties file 
-- Added Spring Security dependency 
-- Added in memory authentication
+- Added Spring Security dependency
+- Added in memory authentication 
 - Added Spring cache dependency, made list returning service functions cachable
-- Created separate entity for the department to improve data integrity scalibility and performance of the application data model
 - Used ResponseEntity for HTTP responses in controlle classes instead of returning entity object directly
-- Added Unit Test for Department Controller and Service Class
+- Added Log4j for logging
 - Introduced field dependency over class dependency 
+- Added Unit Test for Department Controller and Service Class
 
 ### Other Suggestions
 - Use the recommended secure authentication method such as OAuth2 or JWT, and to store the usernames and passwords securely, 
