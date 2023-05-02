@@ -18,7 +18,7 @@ public interface DepartmentRepository extends JpaRepository<Department,Long> {
 	/**
      * Finds a Department entity by name.
      * 
-     * @param name the name of the Department entity
+     * @param name
      * @return an Optional containing the Department entity if found, or an empty Optional otherwise
      */
     Optional<Department> findByName(String name);
@@ -26,7 +26,7 @@ public interface DepartmentRepository extends JpaRepository<Department,Long> {
     /**
      * Finds all Department entities.
      * 
-     * @param pageable the pagination information
+     * @param pageable 
      * @return a Page containing the Department entities
      */
     Page<Department> findAll(Pageable pageable);

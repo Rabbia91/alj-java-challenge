@@ -1,5 +1,9 @@
 package jp.co.axa.apidemo.repositories;
 
+
+
+
+import jp.co.axa.apidemo.entities.Department;
 import jp.co.axa.apidemo.entities.Employee;
 
 import java.util.List;
@@ -13,10 +17,10 @@ import org.springframework.stereotype.Repository;
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 	/**
      * Finds all employees by department name.
-     * @param departmentName 
+     * @param department 
      * @return a list of employees in the given department.
      */
-    List<Employee> findByDepartment(String departmentName);
+    List<Employee> findByDepartment(Department department);
 
     /**
      * Finds all employees by name.
@@ -34,11 +38,11 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
     /**
      * Finds all employees in the given department with pagination.
-     * @param departmentName 
+     * @param department
      * @param pageable
      * @return a page of employees in the given department.
      */
-    Page<Employee> findByDepartment(String departmentName, Pageable pageable);
+    Page<Employee> findByDepartment(Department department, Pageable pageable);
 
     /**
      * Finds all employees with the given name with pagination.

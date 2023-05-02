@@ -1,5 +1,6 @@
 package jp.co.axa.apidemo.services;
 
+import jp.co.axa.apidemo.entities.Department;
 /**
 
 * The EmployeeServiceImpl class implements the EmployeeService interface.
@@ -18,10 +19,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    
+    private static final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
+
 
     @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
@@ -36,6 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Cacheable("employees")
     public List<Employee> getEmployees() {
+    	logger.info("Retrieved all employees");
         return employeeRepository.findAll();
     }
     
@@ -48,6 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Cacheable("employees")
     public Page<Employee> getEmployees(Pageable pageable) {
+    	logger.info("Retrieved all employees with pagination");
         return employeeRepository.findAll(pageable);
     }
 
@@ -61,8 +70,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Cacheable(value = "employees", key = "#employeeId")
     public Employee getEmployee(Long employeeId) {
-        Optional<Employee> optEmp = employeeRepository.findById(employeeId);
-        return optEmp.orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
+    	Optional<Employee> optEmp = employeeRepository.findById(employeeId);
+        if (optEmp.isPresent()) {
+            logger.info("Retrieved employee with id: " + employeeId);
+            return optEmp.get();
+        } else {
+            logger.error("Employee not found with id: " + employeeId);
+            throw new RuntimeException("Employee not found with id: " + employeeId);
+        }
     }
     
     /**
@@ -73,8 +88,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     @Cacheable(value = "employees", key = "#departmentName")
-    public List<Employee> getEmployeesByDepartment(String departmentName) {
-        return employeeRepository.findByDepartment(departmentName);
+    public List<Employee> getEmployeesByDepartment(Department department) {
+    	logger.info("Retrieved all employees in department: " + department);
+    	return employeeRepository.findByDepartment(department);
     }
     
     /**
@@ -86,7 +102,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     @Cacheable(value = "employees", key = "#departmentName")
-    public Page<Employee> getEmployeesByDepartment(String departmentName, Pageable pageable) {
+    public Page<Employee> getEmployeesByDepartment(Department departmentName, Pageable pageable) {
+    	logger.info("Retrieved all employees in department: " + departmentName);
         return employeeRepository.findByDepartment(departmentName, pageable);
     }
     
@@ -99,6 +116,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Cacheable(value = "employees", key = "#name")
     public List<Employee> getEmployeesByName(String name) {
+    	logger.info("Retrieved all employees by: " + name);
         return employeeRepository.findByName(name);
     }
     
@@ -111,6 +129,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Page<Employee> getEmployeesByName(String name, Pageable pageable) {
+    	logger.info("Retrieved all employees by "+ name +" with pagination");
         return employeeRepository.findByName(name, pageable);
     }
 
@@ -122,6 +141,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Employee saveEmployee(Employee employee) {
+    	logger.info("Created new employee: "+ employee.getName()+", "+ employee.getDepartment().getName() + ", " + employee.getSalary() );
         return employeeRepository.save(employee);
     }
 
@@ -134,6 +154,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @CacheEvict(value = "employees", allEntries = true)
     @Override
     public void deleteEmployee(Long employeeId) {
+    	logger.info("Deleted the employees with "+ employeeId );
         employeeRepository.deleteById(employeeId);
     }
 
@@ -145,6 +166,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @CacheEvict(value = "employees", allEntries = true)
     @Override
     public Employee updateEmployee(Employee employee) {
+    	logger.info("Updated new employees with : "+ employee.getId() + ", " + employee.getName()+", "+ employee.getDepartment().getName() + ", " + employee.getSalary());
         return employeeRepository.save(employee);
     }	
     

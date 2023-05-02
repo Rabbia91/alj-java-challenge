@@ -8,6 +8,8 @@ package jp.co.axa.apidemo.controllers;
 
 import jp.co.axa.apidemo.entities.Department;
 import jp.co.axa.apidemo.entities.Employee;
+import jp.co.axa.apidemo.entities.dto.EmployeeDto;
+import jp.co.axa.apidemo.services.DepartmentService;
 import jp.co.axa.apidemo.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,9 +25,11 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final DepartmentService departmentService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, DepartmentService departmentService) {
+    	this.departmentService = departmentService;
         this.employeeService = employeeService;
     }
 
@@ -66,7 +70,11 @@ public class EmployeeController {
     @GetMapping("/employees/departments/{departmentName}")
     public ResponseEntity<Page<Employee>> getEmployeesByDepartment(@PathVariable("departmentName") String departmentName,
     		@PageableDefault(size = 10, sort = "id") Pageable pageable) {
-        Page<Employee> employees = employeeService.getEmployeesByDepartment(departmentName, pageable);
+    	Department department = departmentService.getDepartmentByName(departmentName);
+        if (department == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Page<Employee> employees = employeeService.getEmployeesByDepartment(department, pageable);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
@@ -90,7 +98,12 @@ public class EmployeeController {
      * @return A ResponseEntity containing the created Employee entity and an HTTP status code
      */
     @PostMapping("/employees")
-    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> saveEmployee(@RequestBody EmployeeDto employeeDto) {
+    	Department department = departmentService.getDepartmentByName(employeeDto.getDepartment());
+        if (department == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    	Employee employee = new Employee(employeeDto.getName(), employeeDto.getSalary(), department);
         Employee savedEmployee = employeeService.saveEmployee(employee);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }

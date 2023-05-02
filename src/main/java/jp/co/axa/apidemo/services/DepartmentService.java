@@ -1,5 +1,9 @@
 package jp.co.axa.apidemo.services;
 
+/**
+ * This service interface provides methods for accessing and manipulating Department repository.
+ */
+
 import java.util.List;
 
 import org.springframework.data.domain.Page;

@@ -1,5 +1,12 @@
 package jp.co.axa.apidemo.services;
 
+import jp.co.axa.apidemo.entities.Department;
+
+/**
+ * This service interface provides methods for accessing and manipulating Employee repository.
+ */
+
+
 import jp.co.axa.apidemo.entities.Employee;
 
 import org.springframework.data.domain.Page;
@@ -14,9 +21,9 @@ public interface EmployeeService {
 
     Employee getEmployee(Long employeeId);
 
-    List<Employee> getEmployeesByDepartment(String departmentName);
+    List<Employee> getEmployeesByDepartment(Department department);
     
-    Page<Employee> getEmployeesByDepartment(String departmentName, Pageable pageable);
+    Page<Employee> getEmployeesByDepartment(Department department, Pageable pageable);
     
     List<Employee> getEmployeesByName(String name);
     
