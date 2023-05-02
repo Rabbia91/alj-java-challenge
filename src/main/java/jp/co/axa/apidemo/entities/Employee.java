@@ -29,7 +29,14 @@ public class Employee {
     @Column(name = "salary", nullable = false)
     private Integer salary;
 
-    @Column(name = "department", nullable = false)
-    private String department;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
+    
+    public Employee(String name, Integer salary, Department department){
+    	this.name = name;
+    	this.salary = salary;
+    	this.department = department;
+    }
 
 }
