@@ -1,5 +1,9 @@
 package jp.co.axa.apidemo.entities;
 
+/**
+ * This class represents a Department entity that is mapped to a database table.
+ */
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

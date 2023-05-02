@@ -1,5 +1,9 @@
 package jp.co.axa.apidemo.repositories;
 
+/**
+ * This repository interface provides methods for accessing and manipulating Department entities in the database.
+ */
+
 import jp.co.axa.apidemo.entities.Department;
 
 import java.util.Optional;
@@ -11,6 +15,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department,Long> {
-	Optional<Department> findByName(String name);
-	Page<Department> findAll(Pageable pageable);
+	/**
+     * Finds a Department entity by name.
+     * 
+     * @param name the name of the Department entity
+     * @return an Optional containing the Department entity if found, or an empty Optional otherwise
+     */
+    Optional<Department> findByName(String name);
+    
+    /**
+     * Finds all Department entities.
+     * 
+     * @param pageable the pagination information
+     * @return a Page containing the Department entities
+     */
+    Page<Department> findAll(Pageable pageable);
 }

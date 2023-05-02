@@ -1,5 +1,11 @@
 package jp.co.axa.apidemo.services;
 
+/**
+
+* The EmployeeServiceImpl class implements the EmployeeService interface.
+* It is responsible for handling the business logic related to the Employee entity
+* and interacts with the EmployeeRepository for data access.
+*/
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +28,36 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    /**
+     * Get all employees.
+     *
+     * @return a list of all employees
+     */
     @Override
     @Cacheable("employees")
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
     }
     
+    /**
+     * Get all employees with pagination.
+     *
+     * @param pageable 
+     * @return a page of employees
+     */
     @Override
     @Cacheable("employees")
-	public Page<Employee> getEmployees(Pageable pageable) {
-		return employeeRepository.findAll(pageable);
-	}
+    public Page<Employee> getEmployees(Pageable pageable) {
+        return employeeRepository.findAll(pageable);
+    }
 
+    /**
+     * Get an employee by their ID.
+     *
+     * @param employeeId
+     * @return the employee with the specified ID
+     * @throws RuntimeException if the employee is not found
+     */
     @Override
     @Cacheable(value = "employees", key = "#employeeId")
     public Employee getEmployee(Long employeeId) {
@@ -41,40 +65,83 @@ public class EmployeeServiceImpl implements EmployeeService {
         return optEmp.orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
     }
     
+    /**
+     * Get all employees in a specified department.
+     *
+     * @param departmentName 
+     * @return a list of employees in the specified department
+     */
     @Override
     @Cacheable(value = "employees", key = "#departmentName")
     public List<Employee> getEmployeesByDepartment(String departmentName) {
         return employeeRepository.findByDepartment(departmentName);
     }
     
+    /**
+     * Get all employees in a specified department with pagination.
+     *
+     * @param departmentName 
+     * @param pageable 
+     * @return a page of employees in the specified department
+     */
     @Override
     @Cacheable(value = "employees", key = "#departmentName")
     public Page<Employee> getEmployeesByDepartment(String departmentName, Pageable pageable) {
         return employeeRepository.findByDepartment(departmentName, pageable);
     }
     
+    /**
+     * Get all employees with a specified name.
+     *
+     * @param name 
+     * @return a list of employees with the specified name
+     */
     @Override
     @Cacheable(value = "employees", key = "#name")
-	public List<Employee> getEmployeesByName(String name) {
-		return employeeRepository.findByName(name);
-	}
+    public List<Employee> getEmployeesByName(String name) {
+        return employeeRepository.findByName(name);
+    }
     
+    /**
+     * Get all employees with a specified name with pagination.
+     *
+     * @param name 
+     * @param pageable 
+     * @return a page of employees with the specified name
+     */
     @Override
-	public Page<Employee> getEmployeesByName(String name, Pageable pageable) {
-    	return employeeRepository.findByName(name, pageable);
-	}
+    public Page<Employee> getEmployeesByName(String name, Pageable pageable) {
+        return employeeRepository.findByName(name, pageable);
+    }
 
+    /**
+     * Save an employee.
+     *
+     * @param employee onject
+     * @return the saved employee
+     */
     @Override
     public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
+    /**
+     * Update an existing employee
+     *
+     * @param employee object
+     * @return the updated employee
+     */
     @CacheEvict(value = "employees", allEntries = true)
     @Override
     public void deleteEmployee(Long employeeId) {
         employeeRepository.deleteById(employeeId);
     }
 
+    /**
+     * Delete a employee by ID
+     *
+     * @param employeeId
+     */
     @CacheEvict(value = "employees", allEntries = true)
     @Override
     public Employee updateEmployee(Employee employee) {
