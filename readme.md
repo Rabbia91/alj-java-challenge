@@ -34,15 +34,14 @@ This project provides a RESTful API for managing employees in a company.
 
 ### Modification made
 - Separate out the department entity to improve data integrity scalibility and performance of the application data model ([Department](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/entities/Department.java), [Employyee](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/entities/Employee.java))
-- Created DTO for Employee to simplify data exchange ([EmployeeDTOhttps://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/entities/dto/EmployeeDto.java)
-- Added h2 and datasource properties in Application.properties file 
-- Added Spring Security dependency
-- Added in memory authentication 
-- Added Spring cache dependency, made list returning service functions cachable
-- Used ResponseEntity for HTTP responses in controlle classes instead of returning entity object directly
-- Added Log4j for logging
-- Introduced field dependency over class dependency 
-- Added Unit Test for Department Controller and Service Class
+- Created DTO for Employee to simplify data exchange ([EmployeeDTO](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/entities/dto/EmployeeDto.java))
+- Added h2 and datasource properties in Application.properties file ([Application.properties](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/resources/application.properties))
+- Added in memory authentication ([SecurityConfig](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/configurations/SecurityConfig.java))
+- Added Spring cache dependency, made list returning service functions cachable ([DepartmentServiceImpl](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/services/DepartmentServiceImpl.java), [EmployeeServiceImpl](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/services/EmployeeServiceImpl.java))
+- Used ResponseEntity for HTTP responses in controlle classes instead of returning entity object directly ([DepartmentController](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/controllers/DepartmentController.java), [EmployeeController](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/controllers/EmployeeController.java))
+- Added Log4j for logging ([EmployeeServiceImpl](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/services/EmployeeServiceImpl.java))
+- Introduced field dependency over class dependency ([DepartmentController](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/controllers/DepartmentController.java), [EmployeeController](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/main/java/jp/co/axa/apidemo/controllers/EmployeeController.java))
+- Added Unit Test for Department Controller and Service Class ([DepartmentServiceTest](https://github.com/Rabbia91/alj-java-challenge/blob/master/src/test/java/jp/co/axa/apidemo/services/DepartmentServiceTest.java))
 
 ### Other Suggestions
 - Use the recommended secure authentication method such as OAuth2 or JWT, and to store the usernames and passwords securely, 
